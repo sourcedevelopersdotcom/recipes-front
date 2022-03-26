@@ -9,7 +9,7 @@ export class RecipeList extends React.Component {
     }
 
     mapRecipes = (recipes) => {
-        return recipes.map(recipe => <Recipe key={recipe.title} name={recipe.title} ingredients={recipe.ingredients} />)
+        return recipes.map(recipe => <Recipe key={recipe.title} recipe={recipe} />)
     }
 
     fetchRecipes = () => {
