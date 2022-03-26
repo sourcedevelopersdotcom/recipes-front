@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { API_ROOT } from './services/apiRoot'
+import { RecipeList } from './components/RecipeList'
 import './App.css';
 
 const getData = async (search) => {
@@ -10,7 +11,7 @@ const getData = async (search) => {
   query = query.slice(0, -1);
   const url = `${API_ROOT}/api/v1/recipes?${query}`;
   const response = await fetch(url).catch(() =>
-    console.log("Can’t access " + url + " response. Blocked by browser?")
+    console.log("Can’t access " + url + " response.")
   );
   const json = await response.json();
   return json;
@@ -31,12 +32,6 @@ const useRecipeApi = () => {
   };
   return { recipes, doFetch };
 };
-
-const mapRecipes = (recipes) => {
-  return recipes.map(recipe =>
-    <li className='list-group-item'>{recipe}</li>
-  )
-}
 
 function App() {
   const [ingredients, setIngredients] = useState("");
@@ -63,30 +58,7 @@ function App() {
           </button>
         </form>
       </div>
-      <ul>
-        {recipes && recipes.map(recipe => (
-          <ul className='list-group'>
-            <li className='list-group-item'>
-              <h4>{recipe.title}</h4>
-              <img src={recipe.image} alt={recipe.title} width="200" height="200"></img>
-              <h5>Ratings:</h5>
-              <p>{recipe.ratings}</p>
-              <h5>Cook Time:</h5>
-              <p>{recipe.cook_time}</p>
-              <h5>Preparation Time:</h5>
-              <p>{recipe.prep_time}</p>
-              <h5>Category:</h5>
-              <p>{recipe.category}</p>
-              <h5>Author:</h5>
-              <p>{recipe.author}</p>
-              <h5>Ingredients:</h5>
-              <ul className='list-group'>
-                {mapRecipes(recipe.ingredients)}
-              </ul>
-            </li>
-          </ul>
-        ))}
-      </ul>
+      <RecipeList recipes={recipes} />
     </div>
   );
 }
